@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.RectF
 import android.content.Context
 import android.app.Activity
+import android.util.Log
 
 val nodes : Int = 5
 val lines : Int = 2
@@ -68,15 +69,18 @@ fun Canvas.drawSRANode(i : Int, scale : Float, paint : Paint) {
 class SlideRotArcView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val renderer : Renderer = Renderer(this)
 
     override fun onDraw(canvas : Canvas) {
-
+        renderer.render(canvas, paint)
     }
 
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                renderer.handleTap {
+                    Log.d("stopped updating at", "${System.currentTimeMillis() / 1000}")
+                }
             }
         }
         return true
@@ -216,6 +220,7 @@ class SlideRotArcView(ctx : Context) : View(ctx) {
         fun handleTap(cb : () -> Unit) {
             sra.startUpdating {
                 animator.start()
+                cb()
             }
         }
     }
