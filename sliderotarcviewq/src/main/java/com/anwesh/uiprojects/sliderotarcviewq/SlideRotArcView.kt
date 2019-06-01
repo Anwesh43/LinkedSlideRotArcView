@@ -39,11 +39,11 @@ fun Canvas.drawLineArc(i : Int, sc1 : Float, sc2 : Float, size : Float, paint : 
     val r : Float = size / rFactor
     val y : Float = -size * sc1
     save()
-    rotate(rotDeg * sc2.divideScale(i, lines))
+    rotate(rotDeg * sc2.divideScale(i, lines) * (1f - 2 * i))
     drawLine(0f, 0f, 0f, y, paint)
     save()
     translate(0f, y)
-    drawArc(RectF(-r, -r, r, r), 180f * i, 180f, true, paint)
+    drawArc(RectF(-r, -r, r, r), -90f + 180f * i, 180f, true, paint)
     restore()
     restore()
 }
@@ -230,7 +230,7 @@ class SlideRotArcView(ctx : Context) : View(ctx) {
         fun create(activity: Activity) : SlideRotArcView {
             val view : SlideRotArcView = SlideRotArcView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
