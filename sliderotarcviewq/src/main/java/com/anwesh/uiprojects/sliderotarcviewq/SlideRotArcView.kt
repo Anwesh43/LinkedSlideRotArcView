@@ -224,4 +224,13 @@ class SlideRotArcView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity: Activity) : SlideRotArcView {
+            val view : SlideRotArcView = SlideRotArcView(activity)
+            activity.setContentView(view)
+            return view 
+        }
+    }
 }
