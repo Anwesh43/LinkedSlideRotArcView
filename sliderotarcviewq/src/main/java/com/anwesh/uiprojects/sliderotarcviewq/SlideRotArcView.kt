@@ -197,4 +197,26 @@ class SlideRotArcView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : SlideRotArcView) {
+
+        private val animator : Animator = Animator(view)
+        private val sra : SlideRotArc = SlideRotArc(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            sra.draw(canvas, paint)
+            animator.animate {
+                sra.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap(cb : () -> Unit) {
+            sra.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
